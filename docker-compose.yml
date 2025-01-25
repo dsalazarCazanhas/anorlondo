@@ -1,7 +1,7 @@
 name: "anorlondon"
 services:
   lordOfCinder:
-    image: postgres:latest
+    image: postgres:17.2
     container_name: "gwyn"
     restart: unless-stopped
     shm_size: 64mb
@@ -30,7 +30,7 @@ services:
       - "config_file=/etc/postgresql/postgresql.conf"
 
   lordOfAbyss:
-    image: dpage/pgadmin4:latest
+    image: dpage/pgadmin4:8.14.0
     container_name: "manus"
     env_file:
       - .env
@@ -54,7 +54,7 @@ services:
       retries: 5
 
   gravelord:
-    image: docker.n8n.io/n8nio/n8n:latest
+    image: n8nio/n8n:1.76.1
     container_name: "nyto"
     restart: unless-stopped
     networks:
@@ -86,11 +86,9 @@ services:
         condition: service_healthy
 
   crimsonDragon:
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce:2.21.5
     container_name: "kalameeth"
     restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - kalameeth_data:/data
@@ -98,6 +96,7 @@ services:
       - majula
     ports:
       - "9443:9443"
+      - "8000:8000"
 
 networks:
   majula:
