@@ -1,7 +1,7 @@
 # anorlondon
 
 > [!NOTE]
-> YES! darksouls based names XD
+> YES! Darksouls-based service's names XD
 
 
 **A docker stack with versionated services:**
