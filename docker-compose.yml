@@ -1,8 +1,8 @@
-name: "anorlondon"
+name: 'anorlondon'
 services:
   lordOfCinder:
     image: postgres:17.2
-    container_name: "gwyn"
+    container_name: 'gwyn'
     restart: unless-stopped
     shm_size: 64mb
     env_file:
@@ -13,25 +13,17 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - gwyn_data:/var/lib/postgresql/data
-      - ./postgresql.conf:/etc/postgresql/postgresql.conf
-      - ./pg_hba.conf:/var/lib/postgresql/pg_hba.conf
-    ports:
-      - "5432:5432"
     networks:
       - majula
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ['CMD-SHELL', 'pg_isready']
       interval: 10s
       timeout: 5s
       retries: 5
-    command:
-      - "postgres"
-      - "-c"
-      - "config_file=/etc/postgresql/postgresql.conf"
 
   lordOfAbyss:
-    image: dpage/pgadmin4:8.14.0
-    container_name: "manus"
+    image: dpage/pgadmin4:9.17
+    container_name: 'manus'
     env_file:
       - .env
     restart: unless-stopped
@@ -39,7 +31,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "9180:80"
+      - '127.0.0.1:9180:80'
     volumes:
       - manus_data:/var/lib/pgadmin
     depends_on:
@@ -48,17 +40,14 @@ services:
     networks:
       - majula
     healthcheck:
-      test: ["CMD", "wget", "--spider", "http://localhost:80"]
+      test: ['CMD', 'wget', '--spider', 'http://localhost:80']
       interval: 10s
       timeout: 5s
       retries: 5
 
   gravelord:
-#     build:
-#      context: ./n8n-build-python
-#      dockerfile: Dockerfile
-    image: n8n-python:1.84.3
-    container_name: "nyto"
+    image: n8nio/n8n:latest
+    container_name: 'nyto'
     restart: unless-stopped
     networks:
       - majula
@@ -79,14 +68,14 @@ services:
       - N8N_COMMUNITY_PACKAGES_ENABLED=true
       - N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
-      - GENERIC_TIMEZONE=America/Havana
+      - GENERIC_TIMEZONE=America/Mexico_City
     ports:
-      - "5678:5678"
+      - '127.0.0.1:5678:5678'
     volumes:
       - nyto_data:/home/node/.n8n
-      - ~/anorlondo/mcp_files:/home/node/mcp
+      - ./mcp_files:/home/node/mcp
     healthcheck:
-      test: ["CMD", "wget", "--spider", "http://127.0.0.1:5678/metrics"]
+      test: ['CMD', 'wget', '--spider', 'http://127.0.0.1:5678/metrics']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -95,8 +84,8 @@ services:
         condition: service_healthy
 
   crimsonDragon:
-    image: portainer/portainer-ce:2.21.5
-    container_name: "kalameeth"
+    image: portainer/portainer-ce:latest
+    container_name: 'kalameeth'
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -104,19 +93,15 @@ services:
     networks:
       - majula
     ports:
-      - "9443:9443"
-      - "8000:8000"
+      - '127.0.0.1:9443:9443'
+      #- '8000:8000'
 
 networks:
   majula:
-    driver: bridge
     external: true
 
 volumes:
   gwyn_data:
-    external: true
-  manus_data:
-  kalameeth_data:
   nyto_data:
-    external: true
-
+  kalameeth_data:
+  manus_data:

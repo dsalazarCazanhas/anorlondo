@@ -1,21 +1,21 @@
-# anorlondon
+# anorlondon \o/
 
 > [!NOTE]
-> YES! Darksouls-based service's names XD
+> Darksouls-based service's names
 
+**A docker stack with init automation strat services:**
 
-**A docker stack with versionated services:**
+| technology | container-name | service-name  |
+| ---------- | -------------- | ------------- |
+| postgres   | gwyn           | lordOfCinder  |
+| pgadmin    | manus          | lordOfAbyss   |
+| n8n        | nyto           | gravelord     |
+| portainer  | kalameeth      | crimsonDragon |
 
-| technology | version | container-name | service-name  |
-| ---------- | ------- | -------------- | ------------- |
-| postgres   | 17.2    | gwyn           | lordOfCinder  |
-| pgadmin    | 8.14.0  | manus          | lordOfAbyss   |
-| n8n        | 1.84.3  | nyto           | gravelord     |
-| portainer  | 2.21.5  | kalameeth      | crimsonDragon |
-*there's a build for use n8n with python in **n8n-build-python** folder*
-
+### _*The compose ollama config is for self hosted AI integration with the main stack. N8N is the main automation service, so an AI could be useful*_
 
 **Deploy**
+
 ```bash
 docker compose up -d
 ```
