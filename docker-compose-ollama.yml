@@ -1,0 +1,26 @@
+name: 'ollama'
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    restart: unless-stopped
+    networks:
+      - majula
+    # If is docker compose hosted, try to put in the same network as the other services, so that it can be access by them using the internal host names docker dns resolution.
+    #ports:
+    #- "127.0.0.1:11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+
+volumes:
+  ollama:
+
+networks:
+  majula:
+    external: true
